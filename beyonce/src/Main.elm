@@ -5,6 +5,7 @@ import Browser.Navigation as Nav
 import Html exposing (Html, a, div, hr, li, text, ul)
 import Html.Attributes exposing (href, id)
 import Html.Events exposing (onClick)
+import Page.Home as HomePage
 import Route exposing (Route)
 import Url exposing (Url)
 
@@ -75,9 +76,19 @@ view model =
     , body =
         [ viewNavbar
         , hr [] []
-        , text (Debug.toString model)
+        , viewPage model
         ]
     }
+
+
+viewPage : Model -> Html msg
+viewPage ((Model _ page) as model) =
+    case page of
+        Home ->
+            HomePage.view
+
+        _ ->
+            text (Debug.toString model)
 
 
 viewNavbar : Html Msg
