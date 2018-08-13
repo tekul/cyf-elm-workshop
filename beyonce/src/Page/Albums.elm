@@ -1,7 +1,8 @@
-module Page.Albums exposing (Album, view)
+module Page.Albums exposing (Album, decodeAlbum, view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Json.Decode exposing (Decoder, field, map4, string)
 
 
 type alias Album =
@@ -10,6 +11,15 @@ type alias Album =
     , releaseDate : String
     , video : String
     }
+
+
+decodeAlbum : Decoder Album
+decodeAlbum =
+    map4 Album
+        (field "collectionName" string)
+        (field "artworkUrl100" string)
+        (field "releaseDate" string)
+        (field "url" string)
 
 
 view : List Album -> Html msg
