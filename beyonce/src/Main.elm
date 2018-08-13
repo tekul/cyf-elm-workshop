@@ -6,6 +6,7 @@ import Html exposing (Html, a, div, hr, li, text, ul)
 import Html.Attributes exposing (href, id)
 import Html.Events exposing (onClick)
 import Page.About as AboutPage
+import Page.Albums as AlbumsPage exposing (Album)
 import Page.Home as HomePage
 import Route exposing (Route)
 import Url exposing (Url)
@@ -25,7 +26,22 @@ type Model
 type Page
     = Home
     | About
-    | Albums
+    | Albums (List Album)
+
+
+testAlbums : List Album
+testAlbums =
+    [ { name = "Lemonade"
+      , thumbnail = "http://is1.mzstatic.com/image/thumb/Music20/v4/23/c1/9e/23c19e53-783f-ae47-7212-03cc9998bd84/source/100x100bb.jpg"
+      , releaseDate = "2016-04-25T07:00:00Z"
+      , video = "https://www.youtube.com/embed/PeonBmeFR8o?rel=0&amp;controls=0&amp;showinfo=0"
+      }
+    , { name = "Dangerously In Love"
+      , thumbnail = "http://is1.mzstatic.com/image/thumb/Music/v4/18/93/6d/18936d85-8f6b-7597-87ef-62c4c5211298/source/100x100bb.jpg"
+      , releaseDate = "2003-06-24T07:00:00Z"
+      , video = "https://www.youtube.com/embed/ViwtNLUqkMY?rel=0&amp;controls=0&amp;showinfo=0"
+      }
+    ]
 
 
 
@@ -58,7 +74,7 @@ update msg ((Model navKey page) as model) =
                                     About
 
                                 Route.Albums ->
-                                    Albums
+                                    Albums testAlbums
             in
             ( Model navKey newPage, Cmd.none )
 
@@ -91,8 +107,8 @@ viewPage ((Model _ page) as model) =
         About ->
             AboutPage.view
 
-        _ ->
-            text (Debug.toString model)
+        Albums albums ->
+            AlbumsPage.view albums
 
 
 viewNavbar : Html Msg
