@@ -3,6 +3,7 @@ module Page.Albums exposing (Album, decodeAlbum, view)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Json.Decode exposing (Decoder, field, map4, string)
+import Video exposing (youtubeVideo)
 
 
 type alias Album =
@@ -37,5 +38,6 @@ viewAlbum a =
         [ h2 [] [ text a.name ]
         , img [ src a.thumbnail ] []
         , p [] [ text ("Release date: " ++ a.releaseDate) ]
+        , youtubeVideo a.video
         , hr [] []
         ]
