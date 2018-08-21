@@ -26,15 +26,13 @@ Some reading and exercises to follow before the workshop.
 
 To see how much you've picked up, try these exercises based on the code examples at [elm-lang.org](http://elm-lang.org/examples). You can also transfer the code to https://ellie-app.com which is a bit like codepen for Elm. You can then share your code solutions or ask for help if you have problems by providing the link.
 
-#### [Math](http://elm-lang.org/examples/math)
-
-Add a type signature for the `isTeenage` function? What is the type if we don't add a signature? Why don't we need to add explicit types everywhere?
-
 #### [Strings](http://elm-lang.org/examples/strings)
 
 Add some other strings created using functions like `slice` and `cons` from the [String module](http://package.elm-lang.org/packages/elm-lang/core/5.1.1/String).
 
 #### [Define Functions](http://elm-lang.org/examples/define-functions)
+
+Add a type signature for the `factorial` function. What is the type if we don't add a signature? Why don't we need to add explicit types everywhere?
 
 Add a `double` functions which takes a single argument and multiplies it by 2. Add a type signature for this and for the existing `add` function.
 
