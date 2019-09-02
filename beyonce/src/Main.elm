@@ -1,20 +1,26 @@
 module Main exposing (main)
 
-import Html exposing (Html, a, div, hr, li, program, text, ul)
+import Browser exposing (Document)
+import Browser.Navigation as Nav
+import Html exposing (Html, a, div, hr, li, text, ul)
 import Html.Attributes exposing (href, id)
 import Html.Events exposing (onClick)
-import Navigation exposing (..)
-import Routing as Routing exposing (Route)
+import Route exposing (Route)
+import Url exposing (Url)
 
 
 type Msg
-    = UrlChange Location --| Sent by the runtime when the url changes
-    | NewUrl String --| Sent when we click a menu link to change the url
+    = ChangedUrl Url --| Sent by the runtime when the url changes
+    | ClickedLink Browser.UrlRequest --| Sent when we click a menu link to change the url
 
 
 {-| For this simple case, we just use a model which stores the current page
 -}
 type Model
+    = Model Nav.Key Page
+
+
+type Page
     = Home
     | About
     | Albums
@@ -26,39 +32,52 @@ type Model
 -- in the `main` function.
 
 
-init : Location -> ( Model, Cmd Msg )
-init _ =
-    ( Home, Cmd.none )
+init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
+init _ url navKey =
+    ( Model navKey Home, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update msg ((Model navKey page) as model) =
     case msg of
-        UrlChange l ->
-            case Routing.parseLocation l of
-                Routing.NotFound ->
-                    ( model, Cmd.none )
+        ChangedUrl url ->
+            let
+                newPage =
+                    case Route.fromUrl url of
+                        Nothing ->
+                            page
 
-                Routing.Home ->
-                    ( Home, Cmd.none )
+                        Just route ->
+                            case route of
+                                Route.Home ->
+                                    Home
 
-                Routing.About ->
-                    ( About, Cmd.none )
+                                Route.About ->
+                                    About
 
-                Routing.Albums ->
-                    ( Albums, Cmd.none )
+                                Route.Albums ->
+                                    Albums
+            in
+            ( Model navKey newPage, Cmd.none )
 
-        NewUrl url ->
-            ( model, Navigation.newUrl url )
+        ClickedLink urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model, Nav.pushUrl navKey (Url.toString url) )
+
+                Browser.External url ->
+                    ( model, Nav.load url )
 
 
-view : Model -> Html Msg
+view : Model -> Document Msg
 view model =
-    div [ id "root" ]
+    { title = "Beyonce"
+    , body =
         [ viewNavbar
         , hr [] []
-        , text (toString model)
+        , text (Debug.toString model)
         ]
+    }
 
 
 viewNavbar : Html Msg
@@ -66,9 +85,9 @@ viewNavbar =
     div []
         [ ul []
             (List.map viewLink
-                [ ( Routing.Home, "Beyonce" )
-                , ( Routing.About, "About" )
-                , ( Routing.Albums, "Albums" )
+                [ ( Route.Home, "Beyonce" )
+                , ( Route.About, "About" )
+                , ( Route.Albums, "Albums" )
                 ]
             )
         ]
@@ -78,16 +97,18 @@ viewLink : ( Route, String ) -> Html Msg
 viewLink ( route, txt ) =
     let
         url =
-            Routing.routeToUrl route
+            Route.routeToString route
     in
-    li [] [ a [ href url, onClick (NewUrl url) ] [ text txt ] ]
+    li [] [ a [ href url ] [ text txt ] ]
 
 
-main : Program Never Model Msg
+main : Program () Model Msg
 main =
-    Navigation.program UrlChange
+    Browser.application
         { init = init
-        , subscriptions = \_ -> Sub.none
-        , update = update
         , view = view
+        , update = update
+        , subscriptions = \_ -> Sub.none
+        , onUrlChange = ChangedUrl
+        , onUrlRequest = ClickedLink
         }
