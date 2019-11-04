@@ -26,13 +26,13 @@ Some reading and exercises to follow before the workshop.
 
 To see how much you've picked up, try these exercises based on the code examples at [elm-lang.org](https://elm-lang.org/examples). You can also transfer the code to https://ellie-app.com which is a bit like codepen for Elm. You can then share your code solutions or ask for help if you have problems by providing the link. You can also install the elm compiler locally using npm (`npm install -g elm`). This also provides a repl (`elm repl`).
 
-#### [Hello World](https://elm-lang.org/examples/hello-world)
+#### [Hello World](https://elm-lang.org/examples/hello)
 
 Extract a function `sayHello` and call that from `main` instead of using `text "Hello"` directly.
 Add a type signature for the function. What is the type if we don't add a signature? Why don't we need to add explicit types everywhere?
 
 
-#### [Basic numbers]
+#### Basic numbers
 
 Paste the following code into the online editor at https://elm-lang.org/try.
 
@@ -121,15 +121,15 @@ Can we say anything about the order in which the expressions in a `let` block ar
 
 Change the `view` function to return `Html msg` rather than `Html Msg` and recompile. Why can we do this here, but not in the previous examples?
 
-#### [Form](https://elm-lang.org/examples/form)
+#### [Form](https://elm-lang.org/examples/forms)
 
 Add an extra validation check that the `password` field is greater than 8 characters, which is carried out before the check on whether the passwords match.
 
-#### [Http](https://elm-lang.org/examples/book)
+#### [Http (Book)](https://elm-lang.org/examples/book)
 
 Change the URL used in `Http.get` to an invalid one and recompile the program. You should see an error message. Where is the error case handled? Try removing the code which handles the `Failure` case and recompile.
 
-#### [Http](https://elm-lang.org/examples/cat-gifs)
+#### [Http (Cats)](https://elm-lang.org/examples/cat-gifs)
 
 Try disconnecting your machine from the network and click the "More please!" button. You should see a generic error message as in the books example. We want to improve the error message so that the user gets more information on what went wrong, such as whether the connection failed or there was a server error.
 
