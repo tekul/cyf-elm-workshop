@@ -47,7 +47,7 @@ add x y = x + y
 
 Note that all functions from the ["core" module](https://package.elm-lang.org/packages/elm/core/latest/), such as `String.fromInt` are always available, but for others, such as `Html.text` we have to add `import` statements.
 
-Add a `double` functions which takes a single argument and multiplies it by 2. Add a type signature for this and for the existing `add` function.
+Add a `double` functions which takes a single argument and multiplies it by 2. Add a type signature for this and for the existing `add` function (assume all the numbers are of type `Int`).
 
 What happens if you remove the `String.fromInt` call? Why?
 
@@ -88,7 +88,7 @@ Add an extra button at the bottom of the view which resets the counter.
 
 At first, this might seem similar to enums which you have seen in other languages, but it is actually more powerful.
 
-Change `Reset` to be `Reset Int`. This makes it a constructor for the type `Msg` which takes an integer argument (the value you want to set it to). If we create this type in the repl, we can see that `Reset` is actually a function of type `Int -> Msg`:
+Change `Reset` to be `Reset Int`. This makes `Reset` a constructor for the type `Msg` which takes an integer argument (the value you want to set it to). If we create this type in the repl, we can see that `Reset` is actually a function of type `Int -> Msg`:
 
 ```
 > type Msg = Increment | Decrement | Reset Int
